@@ -23,7 +23,7 @@ If you want to run this code on your machine. You will need to download the data
 ## Initial outputs 
 
 <center>
-<img src="https://github.com/jdzool/blob/master/plots/2020-03-21_corona_virus_fit.png" height="400">
+<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-03-21_corona_virus_fit.png" height="400">
 </center>
 
 ## Assumptions
