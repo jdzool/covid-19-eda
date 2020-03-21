@@ -26,12 +26,13 @@ If you want to run this code on your machine. You will need to download the data
 <img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-03-21_corona_virus_fit.png" height="400">
 </center>
 
-## Assumptions
-* Sampling statistics / testing levels are consistent over time
-
-
 
 ## Further questions  
 
 * How to calculate R_0?  
+* When can an accurate prediction of the peak date be made? 
 * Is it possible to observe a change in the behaviour of the infection rate with social distancing / removal of leisure activities (pubs, restaurants, gyms, cinemas etc..) from 19th March 2020? This would be apparent in a changing infection rate. 
+
+## Assumptions
+* Sampling statistics / testing levels are consistent over time
+* Region infection rate / human behaviour is the same at the local level as the national level (we do not have a time series for each region)
