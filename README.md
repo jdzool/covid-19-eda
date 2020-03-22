@@ -5,7 +5,7 @@ Exploratory data analysis around the covid-19 pandemic
 
 Data is source from the [Public Health England: arcgis microsite](https://www.arcgis.com/apps/opsdashboard/index.html#/f94c3c90da5b4e9f9a0b19484dd4bb14). This site is being updated daily with UK wide confirmed cases and confirmed cases at a 
 
-The some of the source data driving the microsite is available (here)[https://www.arcgis.com/home/item.html?id=e5fd11150d274bebaaf8fe2a7a2bda11]
+The some of the source data driving the microsite is available [here](https://www.arcgis.com/home/item.html?id=e5fd11150d274bebaaf8fe2a7a2bda11)
 
 ## Setup: File Structure 
 
