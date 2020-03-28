@@ -20,10 +20,21 @@ If you want to run this code on your machine. You will need to download the data
    └── 2020-03-21_corona_virus_fit.png  
 
 
-## Initial outputs 
+## Initial outputs: Tracking measured infection rate
 
 <center>
-<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-03-21_corona_virus_fit.png" height="600">
+<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-03-27_corona_virus_fit.png" height="600">
+</center>
+
+## Further outputs: Tracking measured death rate 
+You can undersample on infection rate but undersampling deaths is a lot more difficult.. 
+
+Important too that we think about the error in our fit. 
+
+This is a work in progress
+
+<center>
+<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-03-28_corona_virus_fit_deaths.png" height="600">
 </center>
 
 

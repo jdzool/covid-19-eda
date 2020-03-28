@@ -4,3 +4,4 @@ data/
 other_info
 
 .DS_Store
+.vscode/

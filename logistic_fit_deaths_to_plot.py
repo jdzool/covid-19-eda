@@ -1,6 +1,17 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
+Created on Sat Mar 28 17:27:51 2020
+
+@author: jon.downing
+
 Fitting functions and graphs to explore the growth 
 of COVID-19 in the UK 
+
+Using deaths a measure for progress
+
+You can undersample on infection rate but 
+undersampling deaths is a lot more difficult 
 """
 
 import pandas as pd
@@ -12,25 +23,7 @@ from matplotlib.dates import DateFormatter
 from datetime import datetime
 import os 
 
-"""
-An exponential only explains the growth. There should be a 
-tapering towards the peak and eventually a fall
-"""
-def exponential_func(x, a, b, c):
-    return a * np.exp(b * x) + c
-
-"""
-The three parameter logistic growth curve proposed by Heuvel (2020) (see /papers)
-could not fit this curve. 
-"""
-def logistic_func(x, m, b, a):
-    return m / (1 + np.exp(-b * (x - a)))
-
-"""
-Another logistic type formula. Need to read the literature 
-"""
-def logistic_func_2(x, B, M, H, R):
-    return B + M / (np.exp((H - x)/R))
+from funcs.functions import logistic_func_2
 
 
 """
@@ -56,14 +49,21 @@ The data set is from 31st January where there are relatively few cases
 Lets start fitting from mid-Feb. There is little change in the initial cases
 in early Feb and we want our fit to be accurate in the growth period. 
 """
-start_day_index = 42 # Change here to modify plots
+start_day_index = 44 # Change here to modify plots
 
 x = data.day_number.to_numpy()[start_day_index:] 
-y = data.CumCases.to_numpy()[start_day_index:]
+y = data.CumDeaths.to_numpy()[start_day_index:]
 
 # Use a function to fit the data 
 # Provide bounds on the fitting function 
 popt, pcov = curve_fit(logistic_func_2, x, y, bounds=(-1, [4000., 0.5, 30, 4]))
+
+"""
+popt --> array (Optimal values for the parameters so 
+that the sum of the squared residuals of f(xdata, *popt) - ydata is minimized)
+
+pcov2d --> array (The estimated covariance of popt.)
+"""
 
 # What are fitting co-efficients / variables 
 print( "B = %s , M = %s, H = %s, R = %s" % (popt[0], popt[1], popt[2], popt[3]))
@@ -87,6 +87,12 @@ x_dates_future = [datetime.strptime(str(y), '%Y-%m-%d %H:%M:%S') for y in dates_
 x_future = list(range(x[-1]+1,x[-1] + n))
 
 """
+Create error profile 
+"""
+
+perr = np.sqrt(np.diag(pcov))
+
+"""
 -- Plotting -- 
 
 2 Plots, 3 data sets: 
@@ -99,7 +105,7 @@ measured data, fitted curve, prediction for next 10 days
 
 # Subplot setup
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 6))
-fig.suptitle('Number of COVID-19 infections \n (UK population)')
+fig.suptitle('Number of COVID-19 deaths \n (UK population)')
 ax1.set(xlabel="Date")
 ax1.set(ylabel="Confirmed infections (COVID-19) UK")
 ax1.legend(loc='upper left')
@@ -115,13 +121,16 @@ if not os.path.exists(r"./plots/"):
 # create plots
 for ax in (ax1, ax2): 
     # Add measured data 
-    ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Cases")
+    ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Deaths")
     
     # Add fit
     ax.plot(x_dates, logistic_func_2(x, *popt), 'r-', label="Logistic Fit")
     
     # Add prediction
     ax.plot(x_dates_future, logistic_func_2(x_future, *popt), 'bo', label="Prediction")
+    
+    # Add error
+    ax.plot(x_dates_future, logistic_func_2(x_future, *perr), label="Prediction Error")
      
     # Some more formatting 
     plt.setp( ax.xaxis.get_majorticklabels(), rotation=90 ) 
@@ -133,7 +142,8 @@ plt.tight_layout(rect=[0, 0.03, 1, 0.9])
 ax1.legend(loc='upper left')
 
 # Save! 
-fig.savefig(os.path.join(r'./plots/', date_today + '_corona_virus_fit.png'), format = 'png', dpi = 400)
+fig.savefig(os.path.join(r'./plots/', date_today + '_corona_virus_fit_deaths.png'), format = 'png', dpi = 400)
+
 
 
 
