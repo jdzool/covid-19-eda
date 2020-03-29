@@ -107,7 +107,7 @@ measured data, fitted curve, prediction for next 10 days
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 6))
 fig.suptitle('Number of COVID-19 deaths \n (UK population)')
 ax1.set(xlabel="Date")
-ax1.set(ylabel="Confirmed infections (COVID-19) UK")
+ax1.set(ylabel="Confirmed deaths (COVID-19) UK")
 ax1.legend(loc='upper left')
 ax2.set_yscale("log")
 ax2.set(xlabel="Date")
