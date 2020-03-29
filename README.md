@@ -34,7 +34,7 @@ Important too that we think about the error in our fit.
 This is a work in progress
 
 <center>
-<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-03-28_corona_virus_fit_deaths.png" height="600">
+<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-03-29_corona_virus_fit_deaths.png" height="600">
 </center>
 
 
