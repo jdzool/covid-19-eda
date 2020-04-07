@@ -63,10 +63,12 @@ y = data.CumCases.to_numpy()[start_day_index:]
 
 # Use a function to fit the data 
 # Provide bounds on the fitting function 
-popt, pcov = curve_fit(logistic_func_2, x, y, bounds=(-1, [4000., 0.5, 30, 4]))
+#popt, pcov = curve_fit(logistic_func_2, x, y, bounds=(-1, [4000., 0.5, 30, 4]))
+
+popt, pcov = curve_fit(exponential_func, x, y, bounds=(0, [4000, 2, 30]))
 
 # What are fitting co-efficients / variables 
-print( "B = %s , M = %s, H = %s, R = %s" % (popt[0], popt[1], popt[2], popt[3]))
+#print( "B = %s , M = %s, H = %s, R = %s" % (popt[0], popt[1], popt[2], popt[3]))
 
 # Prepare data for plotting 
 
@@ -84,7 +86,7 @@ dates_future = [dates.iloc[-1] + timedelta(days=x) for x in range(1, n)]
 x_dates_future = [datetime.strptime(str(y), '%Y-%m-%d %H:%M:%S') for y in dates_future]
 
 # create 
-x_future = list(range(x[-1]+1,x[-1] + n))
+x_future = np.array(list(range(x[-1]+1,x[-1] + n)))
 
 """
 -- Plotting -- 
@@ -118,10 +120,10 @@ for ax in (ax1, ax2):
     ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Cases")
     
     # Add fit
-    ax.plot(x_dates, logistic_func_2(x, *popt), 'r-', label="Logistic Fit")
+    ax.plot(x_dates, exponential_func(x, *popt), 'r-', label="Exponential Fit")
     
     # Add prediction
-    ax.plot(x_dates_future, logistic_func_2(x_future, *popt), 'bo', label="Prediction")
+    ax.plot(x_dates_future, exponential_func(x_future, *popt), 'bo', label="Prediction")
      
     # Some more formatting 
     plt.setp( ax.xaxis.get_majorticklabels(), rotation=90 ) 
