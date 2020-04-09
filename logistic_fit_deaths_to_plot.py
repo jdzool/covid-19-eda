@@ -23,7 +23,7 @@ from matplotlib.dates import DateFormatter
 from datetime import datetime
 import os 
 
-from funcs.functions import logistic_func_2
+from funcs.functions import exponential_func
 
 
 """
@@ -49,14 +49,14 @@ The data set is from 31st January where there are relatively few cases
 Lets start fitting from mid-Feb. There is little change in the initial cases
 in early Feb and we want our fit to be accurate in the growth period. 
 """
-start_day_index = 44 # Change here to modify plots
+start_day_index = 55 # Change here to modify plots
 
 x = data.day_number.to_numpy()[start_day_index:] 
 y = data.CumDeaths.to_numpy()[start_day_index:]
 
 # Use a function to fit the data 
 # Provide bounds on the fitting function 
-popt, pcov = curve_fit(logistic_func_2, x, y, bounds=(-1, [4000., 0.5, 30, 4]))
+popt, pcov = curve_fit(exponential_func, x, y, bounds=(-1, [4000., 0.5, 30]))
 
 """
 popt --> array (Optimal values for the parameters so 
@@ -66,7 +66,7 @@ pcov2d --> array (The estimated covariance of popt.)
 """
 
 # What are fitting co-efficients / variables 
-print( "B = %s , M = %s, H = %s, R = %s" % (popt[0], popt[1], popt[2], popt[3]))
+#print( "B = %s , M = %s, H = %s, R = %s" % (popt[0], popt[1], popt[2], popt[3]))
 
 # Prepare data for plotting 
 
@@ -84,7 +84,7 @@ dates_future = [dates.iloc[-1] + timedelta(days=x) for x in range(1, n)]
 x_dates_future = [datetime.strptime(str(y), '%Y-%m-%d %H:%M:%S') for y in dates_future]
 
 # create 
-x_future = list(range(x[-1]+1,x[-1] + n))
+x_future = np.array(list(range(x[-1]+1,x[-1] + n)))
 
 """
 Create error profile 
@@ -124,13 +124,13 @@ for ax in (ax1, ax2):
     ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Deaths")
     
     # Add fit
-    ax.plot(x_dates, logistic_func_2(x, *popt), 'r-', label="Logistic Fit")
+    ax.plot(x_dates, exponential_func(x, *popt), 'r-', label="Logistic Fit")
     
     # Add prediction
-    ax.plot(x_dates_future, logistic_func_2(x_future, *popt), 'bo', label="Prediction")
+    ax.plot(x_dates_future, exponential_func(x_future, *popt), 'bo', label="Prediction")
     
     # Add error
-    ax.plot(x_dates_future, logistic_func_2(x_future, *perr), label="Prediction Error")
+    ax.plot(x_dates_future, exponential_func(x_future, *perr), label="Prediction Error")
      
     # Some more formatting 
     plt.setp( ax.xaxis.get_majorticklabels(), rotation=90 ) 
