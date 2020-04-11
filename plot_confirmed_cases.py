@@ -106,7 +106,7 @@ yerr = exponential_func(x_future, *perr)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 6))
 fig.suptitle('Number of COVID-19 confirmed cases \n (UK population)')
 ax1.set(xlabel="Date")
-ax1.set(ylabel="Confirmed confirmed cases (COVID-19) UK")
+ax1.set(ylabel="Confirmed Cumulative cases (COVID-19) UK")
 ax1.legend(loc='upper left')
 ax2.set_yscale("log")
 ax2.set(xlabel="Date")
@@ -120,7 +120,7 @@ if not os.path.exists(r"./plots/"):
 # create plots
 for ax in (ax1, ax2): 
     # Add measured data 
-    ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Deaths")
+    ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Cases")
     
     # Add fit
     ax.plot(x_dates, exponential_func(x, *popt), 'r-', label="exponential_func")
