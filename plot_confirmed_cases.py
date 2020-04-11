@@ -12,26 +12,7 @@ from matplotlib.dates import DateFormatter
 from datetime import datetime
 import os 
 
-"""
-An exponential only explains the growth. There should be a 
-tapering towards the peak and eventually a fall
-"""
-def exponential_func(x, a, b, c):
-    return a * np.exp(b * x) + c
-
-"""
-The three parameter logistic growth curve proposed by Heuvel (2020) (see /papers)
-could not fit this curve. 
-"""
-def logistic_func(x, m, b, a):
-    return m / (1 + np.exp(-b * (x - a)))
-
-"""
-Another logistic type formula. Need to read the literature 
-"""
-def logistic_func_2(x, B, M, H, R):
-    return B + M / (np.exp((H - x)/R))
-
+from funcs.functions import exponential_func, logistic_func, logistic_func_2
 
 """
 -- Get Data -- 
@@ -56,7 +37,7 @@ The data set is from 31st January where there are relatively few cases
 Lets start fitting from mid-Feb. There is little change in the initial cases
 in early Feb and we want our fit to be accurate in the growth period. 
 """
-start_day_index = 42 # Change here to modify plots
+start_day_index = 56 # Change here to modify plots
 
 x = data.day_number.to_numpy()[start_day_index:] 
 y = data.CumCases.to_numpy()[start_day_index:]
@@ -65,7 +46,7 @@ y = data.CumCases.to_numpy()[start_day_index:]
 # Provide bounds on the fitting function 
 #popt, pcov = curve_fit(logistic_func_2, x, y, bounds=(-1, [4000., 0.5, 30, 4]))
 
-popt, pcov = curve_fit(exponential_func, x, y, bounds=(0, [4000, 2, 30]))
+popt, pcov = curve_fit(exponential_func, x, y, bounds=(0, [8000, 2, 30]))
 
 # What are fitting co-efficients / variables 
 #print( "B = %s , M = %s, H = %s, R = %s" % (popt[0], popt[1], popt[2], popt[3]))
@@ -89,6 +70,25 @@ x_dates_future = [datetime.strptime(str(y), '%Y-%m-%d %H:%M:%S') for y in dates_
 x_future = np.array(list(range(x[-1]+1,x[-1] + n)))
 
 """
+Create error profile 
+"""
+perr = np.sqrt(np.diag(pcov))
+
+"""
+Create error profile 
+"""
+# How does the data compare to the model 
+residuals = y- exponential_func(x, *popt)
+ss_res = np.sum(residuals**2)
+
+# You can get the total sum of squares (ss_tot) with
+ss_tot = np.sum((y-np.mean(y))**2)
+
+# And finally, the r_squared-value with,
+r_squared = 1 - (ss_res / ss_tot)
+
+
+"""
 -- Plotting -- 
 
 2 Plots, 3 data sets: 
@@ -99,11 +99,14 @@ Datasets:
 measured data, fitted curve, prediction for next 10 days 
 """
 
+# First row contains the lower errors, the second row contains the upper errors
+yerr = exponential_func(x_future, *perr)
+
 # Subplot setup
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 6))
-fig.suptitle('Number of COVID-19 infections \n (UK population)')
+fig.suptitle('Number of COVID-19 confirmed cases \n (UK population)')
 ax1.set(xlabel="Date")
-ax1.set(ylabel="Confirmed infections (COVID-19) UK")
+ax1.set(ylabel="Confirmed confirmed cases (COVID-19) UK")
 ax1.legend(loc='upper left')
 ax2.set_yscale("log")
 ax2.set(xlabel="Date")
@@ -117,25 +120,34 @@ if not os.path.exists(r"./plots/"):
 # create plots
 for ax in (ax1, ax2): 
     # Add measured data 
-    ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Cases")
+    ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Deaths")
     
     # Add fit
-    ax.plot(x_dates, exponential_func(x, *popt), 'r-', label="Exponential Fit")
+    ax.plot(x_dates, exponential_func(x, *popt), 'r-', label="exponential_func")
     
     # Add prediction
     ax.plot(x_dates_future, exponential_func(x_future, *popt), 'bo', label="Prediction")
-     
+    
+    # Add error
+    ax.errorbar(x_dates_future, exponential_func(x_future, *popt), yerr, xerr=None, fmt='none', label="Prediction Error")
+    
+
     # Some more formatting 
     plt.setp( ax.xaxis.get_majorticklabels(), rotation=90 ) 
     ax.xaxis.set_major_formatter(dateFmt)
 
+ax1.plot([], [], ' ', label="r-squared = "+ str(round(r_squared,4)))
 
 # tight_layout is needed to make the plot look nioce. 
 plt.tight_layout(rect=[0, 0.03, 1, 0.9])
 ax1.legend(loc='upper left')
 
 # Save! 
-fig.savefig(os.path.join(r'./plots/', date_today + '_corona_virus_fit.png'), format = 'png', dpi = 400)
+last_day = x_dates[-1].strftime("%Y-%m-%d")
+
+
+# Save! 
+fig.savefig(os.path.join(r'./plots/', last_day + '_corona_virus_fit.png'), format = 'png', dpi = 400)
 
 
 

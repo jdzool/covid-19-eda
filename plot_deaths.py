@@ -142,7 +142,7 @@ for ax in (ax1, ax2):
     ax.plot(x_dates, y, 'ko', label="Daily Confirmed Cumulative Deaths")
     
     # Add fit
-    ax.plot(x_dates, exponential_func(x, *popt), 'r-', label="Logistic Fit")
+    ax.plot(x_dates, exponential_func(x, *popt), 'r-', label="Exponential Fit")
     
     # Add prediction
     ax.plot(x_dates_future, exponential_func(x_future, *popt), 'bo', label="Prediction")
