@@ -16,15 +16,15 @@ Since early April all historic data is available on the [Public Health England: 
 If you want to run this code on your machine. You will need to download the data and place it in a folder (/data). The file structure for your repo should look something like below. I am not pushing data to github. 
 
 ├── data  
-   └── DailyConfirmedCases.xlsx 
-    ── Historic COVID-19 Dashboard Data.xlsx 
+   └── DailyConfirmedCases.xlsx  
+     ── Historic COVID-19 Dashboard Data.xlsx   
 ├── logistic_fit_to_plot.py  
 ├── papers  
    └── TUe\ -\ Technical_Report_Prediction_Corona_Virus.pdf  
-   ──  .... 
+     ──  ....  
 ├── plots  
-   └── 2020-03-21_corona_virus_fit.png 
-   ──  .... 
+   └── 2020-03-21_corona_virus_fit.png   
+    ──  ....  
 
 
 ## Initial outputs: Tracking measured infection rate
@@ -37,7 +37,7 @@ If you want to run this code on your machine. You will need to download the data
 You can undersample on infection rate but undersampling deaths is a lot more difficult.. Important too that we think about the error in our fit. 
 
 <center>
-<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-04-10_corona_virus_fit_deaths" height="600">
+<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-04-10_corona_virus_fit_deaths.png" height="600">
 </center>
 
 
