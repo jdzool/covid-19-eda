@@ -23,14 +23,17 @@ from matplotlib.dates import DateFormatter
 from datetime import datetime
 import os 
 
-from funcs.functions import exponential_func
+from funcs.functions import exponential_func, calc_st_dev
+
 
 
 """
 -- Get Data -- 
 
 New data is released from here daily: 
-https://www.arcgis.com/home/item.html?id=e5fd11150d274bebaaf8fe2a7a2bda11
+https://www.arcgis.com/home/item.html?id=e5fd11150d274bebaaf8fe2a7a2bda11 
+
+See: readme
 """
 path = r'./data/DailyConfirmedCases.xlsx'
 
@@ -89,8 +92,21 @@ x_future = np.array(list(range(x[-1]+1,x[-1] + n)))
 """
 Create error profile 
 """
-
 perr = np.sqrt(np.diag(pcov))
+
+"""
+Create error profile 
+"""
+# How does the data compare to the model 
+residuals = y- exponential_func(x, *popt)
+ss_res = np.sum(residuals**2)
+
+# You can get the total sum of squares (ss_tot) with
+ss_tot = np.sum((y-np.mean(y))**2)
+
+# And finally, the r_squared-value with,
+r_squared = 1 - (ss_res / ss_tot)
+
 
 """
 -- Plotting -- 
@@ -102,6 +118,8 @@ Right plot - logarithmic
 Datasets: 
 measured data, fitted curve, prediction for next 10 days 
 """
+# First row contains the lower errors, the second row contains the upper errors
+yerr = exponential_func(x_future, *perr)
 
 # Subplot setup
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 6))
@@ -130,19 +148,24 @@ for ax in (ax1, ax2):
     ax.plot(x_dates_future, exponential_func(x_future, *popt), 'bo', label="Prediction")
     
     # Add error
-    ax.plot(x_dates_future, exponential_func(x_future, *perr), label="Prediction Error")
-     
+    ax.errorbar(x_dates_future, exponential_func(x_future, *popt), yerr, xerr=None, fmt='none', label="Prediction Error")
+    
+
     # Some more formatting 
     plt.setp( ax.xaxis.get_majorticklabels(), rotation=90 ) 
     ax.xaxis.set_major_formatter(dateFmt)
 
+ax1.plot([], [], ' ', label="r-squared = "+ str(round(r_squared,4)))
 
 # tight_layout is needed to make the plot look nioce. 
 plt.tight_layout(rect=[0, 0.03, 1, 0.9])
 ax1.legend(loc='upper left')
 
 # Save! 
-fig.savefig(os.path.join(r'./plots/', date_today + '_corona_virus_fit_deaths.png'), format = 'png', dpi = 400)
+last_day = x_dates[-1].strftime("%Y-%m-%d")
+
+fig.savefig(os.path.join(r'./plots/', last_day + '_corona_virus_fit_deaths.png'), format = 'png', dpi = 400)
+
 
 
 

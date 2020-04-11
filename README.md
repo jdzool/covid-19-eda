@@ -5,19 +5,26 @@ Exploratory data analysis around the covid-19 pandemic
 
 Data is source from the [Public Health England: arcgis microsite](https://www.arcgis.com/apps/opsdashboard/index.html#/f94c3c90da5b4e9f9a0b19484dd4bb14). This site is being updated daily with UK wide confirmed cases and confirmed cases at a 
 
-The some of the source data driving the microsite is available [here](https://www.arcgis.com/home/item.html?id=e5fd11150d274bebaaf8fe2a7a2bda11)
+The some of the source data (daily confirmed cases, daily deaths) is available [here](https://www.arcgis.com/home/item.html?id=e5fd11150d274bebaaf8fe2a7a2bda11)
+* This data is used to drive cumulative cases and cumulative deaths + forward logistic / exponential predections
+
+Since early April all historic data is available on the [Public Health England: arcgis microsite](https://www.arcgis.com/apps/opsdashboard/index.html#/f94c3c90da5b4e9f9a0b19484dd4bb14). See link at the bottom right or [here](https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx)
+* This data could be used to drive plots 
 
 ## Setup: File Structure 
 
 If you want to run this code on your machine. You will need to download the data and place it in a folder (/data). The file structure for your repo should look something like below. I am not pushing data to github. 
 
 ├── data  
-   └── DailyConfirmedCases.xlsx  
+   └── DailyConfirmedCases.xlsx 
+    ── Historic COVID-19 Dashboard Data.xlsx 
 ├── logistic_fit_to_plot.py  
 ├── papers  
    └── TUe\ -\ Technical_Report_Prediction_Corona_Virus.pdf  
+   ──  .... 
 ├── plots  
-   └── 2020-03-21_corona_virus_fit.png  
+   └── 2020-03-21_corona_virus_fit.png 
+   ──  .... 
 
 
 ## Initial outputs: Tracking measured infection rate
@@ -27,14 +34,10 @@ If you want to run this code on your machine. You will need to download the data
 </center>
 
 ## Further outputs: Tracking measured death rate 
-You can undersample on infection rate but undersampling deaths is a lot more difficult.. 
-
-Important too that we think about the error in our fit. 
-
-This is a work in progress
+You can undersample on infection rate but undersampling deaths is a lot more difficult.. Important too that we think about the error in our fit. 
 
 <center>
-<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-03-29_corona_virus_fit_deaths.png" height="600">
+<img src="https://github.com/jdzool/covid-19-eda/blob/master/plots/2020-04-10_corona_virus_fit_deaths" height="600">
 </center>
 
 
