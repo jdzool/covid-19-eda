@@ -3,13 +3,22 @@ Exploratory data analysis around the covid-19 pandemic
 
 ## Setup: Data Sources
 
-Data is source from the [Public Health England: arcgis microsite](https://www.arcgis.com/apps/opsdashboard/index.html#/f94c3c90da5b4e9f9a0b19484dd4bb14). This site is being updated daily with UK wide confirmed cases and confirmed cases at a 
+As of 14th April 2020:
+* Data is now hosted here: https://coronavirus.data.gov.uk/
 
-The some of the source data (daily confirmed cases, daily deaths) is available [here](https://www.arcgis.com/home/item.html?id=e5fd11150d274bebaaf8fe2a7a2bda11)
+April 15th: Time series data is not available for download 
+
+
+### Previous Data Sources:
+
+Changes as of 14th April 2020: Data has moved (see above) --
+
+* Previously data was sourced from the [Public Health England: arcgis microsite](https://www.arcgis.com/apps/opsdashboard/index.html#/f94c3c90da5b4e9f9a0b19484dd4bb14). This site is being updated daily with UK wide confirmed cases and confirmed cases at the local authority level. 
+* The some of the source data (daily confirmed cases, daily deaths) is available [here](https://www.arcgis.com/home/item.html?id=e5fd11150d274bebaaf8fe2a7a2bda11)
 * This data is used to drive cumulative cases and cumulative deaths + forward logistic / exponential predections
 
 Since early April all historic data is available on the [Public Health England: arcgis microsite](https://www.arcgis.com/apps/opsdashboard/index.html#/f94c3c90da5b4e9f9a0b19484dd4bb14). See link at the bottom right or [here](https://fingertips.phe.org.uk/documents/Historic%20COVID-19%20Dashboard%20Data.xlsx)
-* This data could be used to drive plots 
+* This data could be used to drive maps
 
 ## Setup: File Structure 
 
