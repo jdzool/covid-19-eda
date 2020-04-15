@@ -5,3 +5,7 @@ other_info
 
 .DS_Store
 .vscode/
+
+# Remove prototype noteboosk
+*.ipynb
+.ipynb_checkpoints/
