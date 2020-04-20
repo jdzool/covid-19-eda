@@ -7,5 +7,7 @@ other_info
 .vscode/
 
 # Remove prototype noteboosk
-*.ipynb
+plotting_tests.ipynb
+postcodes_initial_plots.ipynb
+plot_cases_map.ipynb
 .ipynb_checkpoints/
